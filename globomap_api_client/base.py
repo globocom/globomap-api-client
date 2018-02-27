@@ -13,62 +13,83 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 """
-import loggging
+import json
+import logging
+
+from requests import Session
 
 from globomap_api_client import exceptions
-
-logger = logging.getLogger(__name__)
 
 
 class Base(object):
 
+    logger = logging.getLogger(__name__)
+
     def __init__(self, auth):
-        self.auth = token
+        self.auth = auth
         self.session = Session()
-        self.session.mount('https://', HTTPAdapter(max_retries=5))
-        self.session.mount('http://', HTTPAdapter(max_retries=5))
 
-    def _get_auth(self):
-        auth = {'Authorization': 'Token token={}'.format(self.token)}
-        return auth
+    def _get_headers(self):
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token token={}'.format(self.auth.token)
+        }
+        return headers
 
-    def make_request(self, method, uri, data, params):
+    def make_request(self, method, uri, params=None, data=None):
         request_url = '{}/v2/{}'.format(self.auth.api_url, uri)
+        data = json.dumps(data)
+        headers = self._get_headers()
         try:
             if method in ('GET', 'DELETE'):
                 response = self.session.request(
                     method,
                     request_url,
-                    params=params,
-                    auth=self._get_auth()
+                    # params=params,
+                    headers=headers
                 )
             else:
                 response = self.session.request(
                     method,
                     request_url,
-                    auth=self._get_auth(),
-                    data=json.dumps(data)
+                    data=data,
+                    headers=headers
                 )
+            print(method)
+            print(request_url)
+            print(params)
+            print(headers)
+            self.logger.info('REQUEST: %s %s' % (method, request_url))
         except:
-            logger.exception('Error in request')
-            raise exceptions.ApiError('Error in request', status_code)
+            self.logger.exception('Error in request')
+            raise exceptions.ApiError('Error in request')
 
         else:
-            return self._parser_response()
+            content = response.json()
+            status_code = response.status_code
 
-    def _parser_response(self, response):
-        content = response.json()
-        status_code = response.status_code
+            if self.logger.isEnabledFor(logging.DEBUG):
+                self.logger.debug('RESPONSE: %s %s %s %s' %
+                                  (method, request_url, content, status_code))
+            else:
+                self.logger.info('RESPONSE: %s %s %s' %
+                                 (method, request_url, status_code))
+
+            return self._parser_response(content, status_code)
+
+    def _parser_response(self, content, status_code):
 
         if status_code == 200:
             return content
         elif status_code == 400:
             raise exceptions.ValidationError(content, status_code)
         elif status_code == 401:
-            raise exceptions.Forbidden(content, status_code)
-        elif status_code == 403:
             raise exceptions.Unauthorized(content, status_code)
+        elif status_code == 403:
+            raise exceptions.Forbidden(content, status_code)
         elif status_code == 404:
             raise exceptions.NotFound(content, status_code)
         elif status_code == 409:
             raise exceptions.DocumentAlreadyExists(content, status_code)
+        else:
+            raise exceptions.ApiError(content, status_code)

@@ -18,7 +18,7 @@
 
 class ApiError(Exception):
 
-    def __init__(self, message, status_code):
+    def __init__(self, message, status_code=None):
         super(ApiError, self).__init__(message, status_code)
 
         self.message = message

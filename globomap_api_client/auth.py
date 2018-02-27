@@ -14,10 +14,11 @@
    limitations under the License.
 """
 import json
+import logging
 
 import requests
 
-from globomap_api_client import GLOBOMAP_API_ADDRESS
+logger = logging.getLogger(__name__)
 
 
 class Auth(object):
@@ -29,15 +30,42 @@ class Auth(object):
         self.generate_token()
 
     def generate_token(self):
-        res = self._make_request()
-        self.token = res['token']['id']
+        response = self._make_request()
+        self.auth = response
+        self.token = response['id']
+
+    def _get_headers(self):
+        return {
+            'Content-Type': 'application/json'
+        }
 
     def _make_request(self):
-        url = '{}/v2/auth'.format(self.api_url)
-        data = {
-            'username': username,
-            'password': password
-        }
-        res = request.post(url, data=json.dumps(data))
-        if res.status_code == 200:
-            return res.json()
+        try:
+            url = '{}/v2/auth/'.format(self.api_url)
+            data = {
+                'username': self.username,
+                'password': self.password
+            }
+            response = requests.post(
+                url, data=json.dumps(data), headers=self._get_headers()
+            )
+
+        except:
+            logger.exception('Error in request')
+            raise exceptions.ApiError('Error in request')
+
+        else:
+            return self._parser_response(response)
+
+    def _parser_response(self, response):
+        content = response.json()
+        status_code = response.status_code
+
+        if status_code == 200:
+            return content
+        elif status_code == 400:
+            raise exceptions.ValidationError(content, status_code)
+        elif status_code == 401:
+            raise exceptions.Unauthorized(content, status_code)
+        else:
+            raise exceptions.ApiError(content, status_code)

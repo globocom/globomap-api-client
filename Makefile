@@ -1,7 +1,7 @@
 .PHONY: help setup clean pep8 tests run
 
 # Version package
-VERSION=$(shell python -c 'import globomap_api_client; print globomap_api_client.VERSION')
+VERSION=$(shell python -c 'import globomap_api_client; print globomap_api_client.__version__')
 
 PROJECT_HOME = "`pwd`"
 
@@ -24,10 +24,6 @@ exec_tests: clean pep8 ## Run all tests with coverage
 
 tests:
 	@docker exec -it globomap_api_client make exec_tests
-
-docker: ## Run a development web server
-	@docker-compose build
-	@docker-compose up -d
 
 dist: clean
 	@python setup.py sdist

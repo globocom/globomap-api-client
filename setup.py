@@ -20,7 +20,7 @@ VERSION = __import__('globomap_api_client').__version__
 setup(
     name='globomap-api-client',
     version=VERSION,
-    description='Globo globimap-api-client',
+    description='Client to GloboMAP API',
     author='Ederson Brilhante',
     author_email='ederson.brilhante@corp.globo.com',
     install_requires=[

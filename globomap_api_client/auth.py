@@ -18,6 +18,7 @@ import logging
 
 import requests
 
+from globomap_api_client import exceptions
 logger = logging.getLogger(__name__)
 
 

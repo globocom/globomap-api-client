@@ -57,3 +57,7 @@ class DocumentEdge(Document):
     def delete(self, edge, key):
         return super(DocumentEdge, self).delete(
             kind=self.kind, edge=edge, key=key)
+
+    def clear(self, edge, document):
+        return super(DocumentEdge, self).clear(
+            kind=self.kind, edge=edge, document=document)

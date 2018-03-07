@@ -45,7 +45,7 @@ class Base(object):
                 response = self.session.request(
                     method,
                     request_url,
-                    # params=params,
+                    params=params,
                     headers=headers
                 )
             else:
@@ -55,10 +55,6 @@ class Base(object):
                     data=data,
                     headers=headers
                 )
-            print(method)
-            print(request_url)
-            print(params)
-            print(headers)
             self.logger.info('REQUEST: %s %s' % (method, request_url))
         except:
             self.logger.exception('Error in request')

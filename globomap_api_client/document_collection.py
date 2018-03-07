@@ -57,3 +57,7 @@ class DocumentCollection(Document):
     def delete(self, collection, key):
         return super(DocumentCollection, self).delete(
             kind=self.kind, collection=collection, key=key)
+
+    def clear(self, edge, document):
+        return super(DocumentCollection, self).clear(
+            kind=self.kind, edge=edge, document=document)

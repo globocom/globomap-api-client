@@ -55,7 +55,7 @@ class Base(object):
                     data=data,
                     headers=headers
                 )
-            self.logger.info('REQUEST: %s %s' % (method, request_url))
+            self.logger.info('REQUEST: %s %s', method, request_url)
         except:
             self.logger.exception('Error in request')
             raise exceptions.ApiError('Error in request')
@@ -65,11 +65,11 @@ class Base(object):
             status_code = response.status_code
 
             if self.logger.isEnabledFor(logging.DEBUG):
-                self.logger.debug('RESPONSE: %s %s %s %s' %
-                                  (method, request_url, content, status_code))
+                self.logger.debug('RESPONSE: %s %s %s %s',
+                                  method, request_url, content, status_code)
             else:
-                self.logger.info('RESPONSE: %s %s %s' %
-                                 (method, request_url, status_code))
+                self.logger.info('RESPONSE: %s %s %s', method,
+                                 request_url, status_code)
 
             return self._parser_response(content, status_code)
 

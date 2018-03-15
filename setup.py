@@ -25,7 +25,6 @@ setup(
     author_email='ederson.brilhante@corp.globo.com',
     install_requires=[
         'requests==2.18.4'
-        'urllib==2.18.4'
     ],
     url='https://github.com/globocom/globomap-api-client',
     packages=['globomap_api_client'],

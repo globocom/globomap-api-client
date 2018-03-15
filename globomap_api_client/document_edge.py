@@ -40,7 +40,6 @@ class DocumentEdge(Document):
         return self.make_request(method='GET', uri=uri, params=params)
 
     def search(self, edge, query=None, per_page=10, page=1):
-        query = self.encoding_params(query)
         return super(DocumentEdge, self).search(
             kind=self.kind, edge=edge, query=query, per_page=10, page=1)
 

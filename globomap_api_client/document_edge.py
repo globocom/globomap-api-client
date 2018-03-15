@@ -40,7 +40,7 @@ class DocumentEdge(Document):
 
     def search(self, edge, query=None, per_page=10, page=1):
         return super(DocumentEdge, self).search(
-            kind=self.kind, edge=edge, query=None, per_page=10, page=1)
+            kind=self.kind, edge=edge, query=query, per_page=10, page=1)
 
     def list(self, edge, per_page=10, page=1):
         return super(DocumentEdge, self).list(

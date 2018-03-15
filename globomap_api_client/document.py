@@ -28,6 +28,7 @@ class Document(Base):
 
     def search(self, kind, collection, query=None, per_page=10, page=1):
         uri = '{}/{}'.format(kind, collection)
+        query = self.encoding_params(query)
         params = {
             'query': query,
             'per_page': per_page,

@@ -15,6 +15,7 @@
 """
 import json
 import logging
+from urllib import parse
 
 from requests import Session
 
@@ -89,3 +90,7 @@ class Base(object):
             raise exceptions.DocumentAlreadyExists(content, status_code)
         else:
             raise exceptions.ApiError(content, status_code)
+
+    def encoding_params(self, params):
+        params = parse.quote(params)
+        return params

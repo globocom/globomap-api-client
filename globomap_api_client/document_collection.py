@@ -40,7 +40,7 @@ class DocumentCollection(Document):
 
     def search(self, collection, query=None, per_page=10, page=1):
         return super(DocumentCollection, self).search(
-            kind=self.kind, collection=collection, query=None, per_page=10, page=1)
+            kind=self.kind, collection=collection, query=query, per_page=10, page=1)
 
     def list(self, collection, per_page=10, page=1):
         return super(DocumentCollection, self).list(

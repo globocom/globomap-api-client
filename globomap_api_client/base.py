@@ -15,7 +15,6 @@
 """
 import json
 import logging
-from urllib import parse
 
 from requests import Session
 
@@ -92,5 +91,5 @@ class Base(object):
             raise exceptions.ApiError(content, status_code)
 
     def encoding_params(self, params):
-        params = parse.quote(params)
+        params = json.dumps(params)
         return params

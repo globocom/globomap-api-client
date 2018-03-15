@@ -40,7 +40,6 @@ class DocumentCollection(Document):
         return self.make_request(method='GET', uri=uri, params=params)
 
     def search(self, collection, query=None, per_page=10, page=1):
-        query = self.encoding_params(query)
         return super(DocumentCollection, self).search(
             kind=self.kind, collection=collection, query=query, per_page=10, page=1)
 

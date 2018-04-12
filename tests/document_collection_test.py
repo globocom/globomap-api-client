@@ -47,6 +47,39 @@ class DocumentCollectionTest(unittest2.TestCase):
         doc.make_request = Mock()
         collections = ['collection_test1', 'collection_test2']
         query = [[{'field': 'name', 'operator': 'LIKE', 'value': 'test'}]]
+        doc.search_many_coll(collections, query, 10, 1)
+
+        params = {
+            'query': json.dumps(query),
+            'per_page': 10,
+            'collections': collections,
+            'page': 1
+        }
+        doc.make_request.assert_called_once_with(
+            method='GET', uri='collections/search', params=params)
+
+    def test_search(self):
+        with patch.object(Document, 'search') as mock_method:
+            doc = DocumentCollection(Mock())
+            query = [[{'field': 'name', 'operator': 'LIKE', 'value': 'test'}]]
+            doc.search('collection_test', query, 10, 1)
+            mock_method.assert_called_with(
+                kind='collections', collection='collection_test', query=query,
+                per_page=10, page=1
+            )
+
+    def test_list(self):
+        with patch.object(Document, 'list') as mock_method:
+            doc = DocumentCollection(Mock())
+            doc.list('collection_test', 10, 1)
+            mock_method.assert_called_with(
+                kind='collections', collection='collection_test', per_page=10, page=1)
+
+    def test_search_many_coll_with_pagination(self):
+        doc = DocumentCollection(Mock())
+        doc.make_request = Mock()
+        collections = ['collection_test1', 'collection_test2']
+        query = [[{'field': 'name', 'operator': 'LIKE', 'value': 'test'}]]
         doc.search_many_coll(collections, query, 20, 2)
 
         params = {
@@ -58,7 +91,7 @@ class DocumentCollectionTest(unittest2.TestCase):
         doc.make_request.assert_called_once_with(
             method='GET', uri='collections/search', params=params)
 
-    def test_search(self):
+    def test_search_with_pagination(self):
         with patch.object(Document, 'search') as mock_method:
             doc = DocumentCollection(Mock())
             query = [[{'field': 'name', 'operator': 'LIKE', 'value': 'test'}]]
@@ -68,7 +101,7 @@ class DocumentCollectionTest(unittest2.TestCase):
                 per_page=20, page=2
             )
 
-    def test_list(self):
+    def test_list_with_pagination(self):
         with patch.object(Document, 'list') as mock_method:
             doc = DocumentCollection(Mock())
             doc.list('collection_test', 20, 2)

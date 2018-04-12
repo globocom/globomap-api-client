@@ -56,7 +56,7 @@ class Base(object):
                     headers=headers
                 )
             self.logger.info('REQUEST: %s %s', method, request_url)
-        except:
+        except Exception:
             self.logger.exception('Error in request')
             raise exceptions.ApiError('Error in request')
 

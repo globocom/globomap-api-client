@@ -41,11 +41,15 @@ class DocumentCollection(Document):
 
     def search(self, collection, query=None, per_page=10, page=1):
         return super(DocumentCollection, self).search(
-            kind=self.kind, collection=collection, query=query, per_page=10, page=1)
+            kind=self.kind, collection=collection,
+            query=query, per_page=per_page, page=page
+        )
 
     def list(self, collection, per_page=10, page=1):
         return super(DocumentCollection, self).list(
-            kind=self.kind, collection=collection, per_page=10, page=1)
+            kind=self.kind, collection=collection,
+            per_page=per_page, page=page
+        )
 
     def put(self, collection, key, document):
         return super(DocumentCollection, self).put(
@@ -59,6 +63,6 @@ class DocumentCollection(Document):
         return super(DocumentCollection, self).delete(
             kind=self.kind, collection=collection, key=key)
 
-    def clear(self, edge, document):
+    def clear(self, edge, query):
         return super(DocumentCollection, self).clear(
-            kind=self.kind, edge=edge, document=document)
+            kind=self.kind, collection=edge, query=query)

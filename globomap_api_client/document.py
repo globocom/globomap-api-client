@@ -56,6 +56,6 @@ class Document(Base):
         uri = '{}/{}/{}/'.format(kind, collection, key)
         return self.make_request(method='DELETE', uri=uri)
 
-    def clear(self, kind, collection, document):
+    def clear(self, kind, collection, query):
         uri = '{}/{}/clear/'.format(kind, collection)
-        return self.make_request(method='POST', uri=uri, data=document)
+        return self.make_request(method='POST', uri=uri, data=query)

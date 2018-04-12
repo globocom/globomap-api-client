@@ -62,6 +62,33 @@ class DocumentTest(unittest2.TestCase):
     def test_list(self):
         doc = Document(Mock())
         doc.make_request = Mock()
+        doc.list('collections', 'collection_test')
+        params = {
+            'per_page': 10,
+            'page': 1
+        }
+        doc.make_request.assert_called_once_with(
+            method='GET', uri='collections/collection_test', params=params)
+
+    def test_search_with_pagination(self):
+        doc = Document(Mock())
+        doc.make_request = Mock()
+        query = [[{'field': 'name', 'operator': 'LIKE', 'value': 'test'}]]
+        doc.search('collections', 'collection_test', query)
+
+        params = {
+            'query': json.dumps(query),
+            'per_page': 10,
+            'page': 1
+        }
+        doc.make_request.assert_called_once_with(
+            method='GET', uri='collections/collection_test',
+            params=params
+        )
+
+    def test_list_with_pagination(self):
+        doc = Document(Mock())
+        doc.make_request = Mock()
         doc.list('collections', 'collection_test', 20, 2)
         params = {
             'per_page': 20,

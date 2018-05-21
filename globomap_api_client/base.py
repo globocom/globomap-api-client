@@ -37,6 +37,8 @@ class Base(object):
         return headers
 
     def make_request(self, method, uri, params=None, data=None):
+        if uri[-1] != '/':
+            uri += '/'
         request_url = '{}/v2/{}'.format(self.auth.api_url, uri)
         data = json.dumps(data)
         headers = self._get_headers()

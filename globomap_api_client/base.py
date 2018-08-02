@@ -46,6 +46,8 @@ class Base(object):
         headers = self._get_headers()
         try:
             if method in ('GET', 'DELETE'):
+                if method == 'GET':
+                    headers.pop('Content-Type')
                 response = self.session.request(
                     method,
                     request_url,

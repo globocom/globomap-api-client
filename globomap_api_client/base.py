@@ -67,7 +67,11 @@ class Base(object):
             raise exceptions.ApiError('Error in request')
 
         else:
-            content = response.json()
+            try:
+                content = response.json()
+            except json.JSONDecodeError:
+                content = response.content
+
             status_code = response.status_code
 
             if self.logger.isEnabledFor(logging.DEBUG):

@@ -20,10 +20,10 @@ from requests import Session
 
 from globomap_api_client import exceptions
 
+logger = logging.getLogger(__name__)
+
 
 class Base(object):
-
-    logger = logging.getLogger(__name__)
 
     def __init__(self, auth):
         self.auth = auth
@@ -61,9 +61,9 @@ class Base(object):
                     data=data,
                     headers=headers
                 )
-            self.logger.info('REQUEST: %s %s', method, request_url)
+            logger.info('REQUEST: %s %s', method, request_url)
         except Exception:
-            self.logger.exception('Error in request')
+            logger.exception('Error in request')
             raise exceptions.ApiError('Error in request')
 
         else:
@@ -74,12 +74,12 @@ class Base(object):
 
             status_code = response.status_code
 
-            if self.logger.isEnabledFor(logging.DEBUG):
-                self.logger.debug('RESPONSE: %s %s %s %s',
-                                  method, request_url, content, status_code)
+            if logger.isEnabledFor(logging.DEBUG):
+                logger.debug('RESPONSE: %s %s %s %s',
+                             method, request_url, content, status_code)
             else:
-                self.logger.info('RESPONSE: %s %s %s', method,
-                                 request_url, status_code)
+                logger.info('RESPONSE: %s %s %s', method,
+                            request_url, status_code)
 
             return self._parser_response(content, status_code)
 

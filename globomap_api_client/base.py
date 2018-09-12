@@ -25,8 +25,9 @@ logger = logging.getLogger(__name__)
 
 class Base(object):
 
-    def __init__(self, auth):
+    def __init__(self, auth, retries=10):
         self.auth = auth
+        self.retries = retries
         self.session = Session()
 
     def _get_headers(self):
@@ -36,7 +37,7 @@ class Base(object):
         }
         return headers
 
-    def make_request(self, method, uri, params=None, data=None):
+    def make_request(self, method, uri, params=None, data=None, retries=0):
         if uri[-1] != '/':
             uri += '/'
         request_url = '{}/v2/{}'.format(self.auth.api_url, uri)
@@ -80,6 +81,10 @@ class Base(object):
             else:
                 logger.info('RESPONSE: %s %s %s', method,
                             request_url, status_code)
+
+            if status_code in (502, 503) and self.retries:
+                retries += 1
+                self.make_request(method, uri, params, data, retries)
 
             return self._parser_response(content, status_code)
 

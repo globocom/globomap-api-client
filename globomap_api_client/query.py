@@ -49,7 +49,7 @@ class Query(Base):
         uri = 'queries/{}/'.format(key)
         return self.make_request(method='DELETE', uri=uri)
 
-    def execute(self, key, variable):
+    def execute(self, key, variable=None):
         if variable:
             uri = 'queries/{}/execute/?variable={}'.format(key, variable)
         else:

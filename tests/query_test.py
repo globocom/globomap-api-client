@@ -118,3 +118,11 @@ class QueryTest(unittest2.TestCase):
 
         query_doc.make_request.assert_called_once_with(
             method='GET', uri='queries/key1/execute/')
+
+    def test_execute_with_variable(self):
+        query_doc = Query(Mock())
+        query_doc.make_request = Mock()
+        query_doc.execute('key1', 'variable')
+
+        query_doc.make_request.assert_called_once_with(
+            method='GET', uri='queries/key1/execute/?variable=variable')

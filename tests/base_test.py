@@ -354,7 +354,6 @@ class BaseTest(unittest2.TestCase):
         base.make_request('GET', 'path', params, None)
 
         headers = {
-            'Content-Type': 'application/json',
             'Authorization': 'Token token=token123'
         }
         request_mock.assert_called_once_with(

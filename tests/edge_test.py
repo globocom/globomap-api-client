@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 """
+import json
 from unittest.mock import Mock
 from unittest.mock import patch
 
@@ -39,4 +40,45 @@ class EdgeTest(unittest2.TestCase):
         edge.make_request = Mock()
         edge.list()
 
-        edge.make_request.assert_called_once_with(method='GET', uri='edges')
+        edge.make_request.assert_called_once_with(
+            method='GET', params={'per_page': 10, 'page': 1}, uri='edges')
+
+    def test_list_with_pagination(self):
+        edge = Edge(Mock())
+        edge.make_request = Mock()
+        edge.list(page=2, per_page=20)
+
+        edge.make_request.assert_called_once_with(
+            method='GET', params={'per_page': 20, 'page': 2}, uri='edges')
+
+    def test_search(self):
+        edge = Edge(Mock())
+        edge.make_request = Mock()
+        query = [[{'field': 'name', 'operator': 'LIKE', 'value': 'test'}]]
+        edge.search(query=query)
+
+        params = {
+            'query': json.dumps(query),
+            'per_page': 10,
+            'page': 1
+        }
+        edge.make_request.assert_called_once_with(
+            method='GET', uri='edges',
+            params=params
+        )
+
+    def test_search_with_pagination(self):
+        edge = Edge(Mock())
+        edge.make_request = Mock()
+        query = [[{'field': 'name', 'operator': 'LIKE', 'value': 'test'}]]
+        edge.search(query, 20, 2)
+
+        params = {
+            'query': json.dumps(query),
+            'per_page': 20,
+            'page': 2
+        }
+        edge.make_request.assert_called_once_with(
+            method='GET', uri='edges',
+            params=params
+        )

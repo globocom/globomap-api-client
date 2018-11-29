@@ -21,5 +21,20 @@ class Edge(Base):
     def post(self, document):
         return self.make_request(method='POST', uri='edges', data=document)
 
-    def list(self):
-        return self.make_request(method='GET', uri='edges')
+    def search(self, query=None, per_page=10, page=1):
+        uri = 'edges'
+        query = self.encoding_params(query)
+        params = {
+            'query': query,
+            'per_page': per_page,
+            'page': page
+        }
+        return self.make_request(method='GET', uri=uri, params=params)
+
+    def list(self, per_page=10, page=1):
+        uri = 'edges'
+        params = {
+            'per_page': per_page,
+            'page': page
+        }
+        return self.make_request(method='GET', uri=uri, params=params)

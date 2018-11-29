@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 """
+import json
 from unittest.mock import Mock
 from unittest.mock import patch
 
@@ -40,4 +41,44 @@ class CollectionTest(unittest2.TestCase):
         collection.list()
 
         collection.make_request.assert_called_once_with(
-            method='GET', uri='collections')
+            method='GET', params={'per_page': 10, 'page': 1}, uri='collections')
+
+    def test_list_with_pagination(self):
+        collection = Collection(Mock())
+        collection.make_request = Mock()
+        collection.list(page=2, per_page=20)
+
+        collection.make_request.assert_called_once_with(
+            method='GET', params={'per_page': 20, 'page': 2}, uri='collections')
+
+    def test_search(self):
+        collection = Collection(Mock())
+        collection.make_request = Mock()
+        query = [[{'field': 'name', 'operator': 'LIKE', 'value': 'test'}]]
+        collection.search(query=query)
+
+        params = {
+            'query': json.dumps(query),
+            'per_page': 10,
+            'page': 1
+        }
+        collection.make_request.assert_called_once_with(
+            method='GET', uri='collections',
+            params=params
+        )
+
+    def test_search_with_pagination(self):
+        collection = Collection(Mock())
+        collection.make_request = Mock()
+        query = [[{'field': 'name', 'operator': 'LIKE', 'value': 'test'}]]
+        collection.search(query, 20, 2)
+
+        params = {
+            'query': json.dumps(query),
+            'per_page': 20,
+            'page': 2
+        }
+        collection.make_request.assert_called_once_with(
+            method='GET', uri='collections',
+            params=params
+        )

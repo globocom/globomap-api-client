@@ -21,5 +21,20 @@ class Collection(Base):
     def post(self, document):
         return self.make_request(method='POST', uri='collections', data=document)
 
-    def list(self):
-        return self.make_request(method='GET', uri='collections')
+    def search(self, query=None, per_page=10, page=1):
+        uri = 'collections'
+        query = self.encoding_params(query)
+        params = {
+            'query': query,
+            'per_page': per_page,
+            'page': page
+        }
+        return self.make_request(method='GET', uri=uri, params=params)
+
+    def list(self, per_page=10, page=1):
+        uri = 'collections'
+        params = {
+            'per_page': per_page,
+            'page': page
+        }
+        return self.make_request(method='GET', uri=uri, params=params)

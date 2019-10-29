@@ -16,9 +16,10 @@
 import json
 import logging
 
-import requests
+from requests import Session
 
 from globomap_api_client import exceptions
+from globomap_api_client.settings import SSL_VERIFY
 
 
 class Auth(object):
@@ -29,6 +30,7 @@ class Auth(object):
         self.api_url = api_url
         self.username = username
         self.password = password
+        self.session = Session()
         self.generate_token()
 
     def generate_token(self):
@@ -48,8 +50,12 @@ class Auth(object):
                 'username': self.username,
                 'password': self.password
             }
-            response = requests.post(
-                url, data=json.dumps(data), headers=self._get_headers()
+            response = self.session.request(
+                'POST',
+                url,
+                data=json.dumps(data),
+                headers=self._get_headers(),
+                verify=SSL_VERIFY
             )
 
         except Exception:

@@ -39,7 +39,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.ApiError):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('POST', 'path', None, data)
+            base.make_request('POST', 'path', None, data, 1)
 
     def test_post_exception(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -50,7 +50,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.ApiError):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('POST', 'path', None, data)
+            base.make_request('POST', 'path', None, data, 1)
 
     def test_post_200(self):
         mock_session = patch('globomap_api_client.base.Session').start()
@@ -63,14 +63,14 @@ class BaseTest(unittest2.TestCase):
         data = {'key': 'value'}
 
         base = Base(Mock(api_url='http://localhost', token='token123'))
-        base.make_request('POST', 'path', None, data)
+        base.make_request('POST', 'path', None, data, 1)
 
         headers = {
             'Content-Type': 'application/json',
             'Authorization': 'Token token=token123'
         }
         request_mock.assert_called_once_with(
-            'POST', 'http://localhost/v2/path/', data=json.dumps(data), headers=headers
+            'POST', 'http://localhost/v2/path/', data=json.dumps(data), headers=headers, verify=1
         )
 
     def test_post_400(self):
@@ -83,7 +83,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.ValidationError):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('POST', 'path', None, data)
+            base.make_request('POST', 'path', None, data, 1)
 
     def test_post_401(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -95,7 +95,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.Unauthorized):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('POST', 'path', None, data)
+            base.make_request('POST', 'path', None, data, 1)
 
     def test_post_403(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -107,7 +107,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.Forbidden):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('POST', 'path', None, data)
+            base.make_request('POST', 'path', None, data, 1)
 
     def test_post_404(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -119,7 +119,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.NotFound):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('POST', 'path', None, data)
+            base.make_request('POST', 'path', None, data, 1)
 
     def test_post_409(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -131,7 +131,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.DocumentAlreadyExists):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('POST', 'path', None, data)
+            base.make_request('POST', 'path', None, data, 1)
 
     def test_put_error(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -143,7 +143,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.ApiError):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('PUT', 'path', None, data)
+            base.make_request('PUT', 'path', None, data, 1)
 
     def test_put_exception(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -154,7 +154,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.ApiError):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('PUT', 'path', None, data)
+            base.make_request('PUT', 'path', None, data, 1)
 
     def test_put_200(self):
         mock_session = patch('globomap_api_client.base.Session').start()
@@ -167,14 +167,14 @@ class BaseTest(unittest2.TestCase):
         data = {'key': 'value'}
 
         base = Base(Mock(api_url='http://localhost', token='token123'))
-        base.make_request('PUT', 'path', None, data)
+        base.make_request('PUT', 'path', None, data, 1)
 
         headers = {
             'Content-Type': 'application/json',
             'Authorization': 'Token token=token123'
         }
         request_mock.assert_called_once_with(
-            'PUT', 'http://localhost/v2/path/', data=json.dumps(data), headers=headers
+            'PUT', 'http://localhost/v2/path/', data=json.dumps(data), headers=headers, verify=1
         )
 
     def test_put_400(self):
@@ -187,7 +187,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.ValidationError):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('PUT', 'path', None, data)
+            base.make_request('PUT', 'path', None, data, 1)
 
     def test_put_401(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -199,7 +199,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.Unauthorized):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('PUT', 'path', None, data)
+            base.make_request('PUT', 'path', None, data, 1)
 
     def test_put_403(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -211,7 +211,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.Forbidden):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('PUT', 'path', None, data)
+            base.make_request('PUT', 'path', None, data, 1)
 
     def test_put_404(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -223,7 +223,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.NotFound):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('PUT', 'path', None, data)
+            base.make_request('PUT', 'path', None, data, 1)
 
     def test_patch_error(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -235,7 +235,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.ApiError):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('PATCH', 'path', None, data)
+            base.make_request('PATCH', 'path', None, data, 1)
 
     def test_patch_exception(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -246,7 +246,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.ApiError):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('PATCH', 'path', None, data)
+            base.make_request('PATCH', 'path', None, data, 1)
 
     def test_patch_200(self):
         mock_session = patch('globomap_api_client.base.Session').start()
@@ -259,14 +259,14 @@ class BaseTest(unittest2.TestCase):
         data = {'key': 'value'}
 
         base = Base(Mock(api_url='http://localhost', token='token123'))
-        base.make_request('PATCH', 'path', None, data)
+        base.make_request('PATCH', 'path', None, data, 1)
 
         headers = {
             'Content-Type': 'application/json',
             'Authorization': 'Token token=token123'
         }
         request_mock.assert_called_once_with(
-            'PATCH', 'http://localhost/v2/path/', data=json.dumps(data), headers=headers
+            'PATCH', 'http://localhost/v2/path/', data=json.dumps(data), headers=headers, verify=1
         )
 
     def test_patch_400(self):
@@ -279,7 +279,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.ValidationError):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('PATCH', 'path', None, data)
+            base.make_request('PATCH', 'path', None, data, 1)
 
     def test_patch_401(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -291,7 +291,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.Unauthorized):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('PATCH', 'path', None, data)
+            base.make_request('PATCH', 'path', None, data, 1)
 
     def test_patch_403(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -303,7 +303,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.Forbidden):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('PATCH', 'path', None, data)
+            base.make_request('PATCH', 'path', None, data, 1)
 
     def test_patch_404(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -315,7 +315,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.NotFound):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('PATCH', 'path', None, data)
+            base.make_request('PATCH', 'path', None, data, 1)
 
     def test_get_error(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -327,7 +327,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.ApiError):
             base = Base(Mock())
             query = {'key': 'value'}
-            base.make_request('GET', 'path', query, None)
+            base.make_request('GET', 'path', query, None, 1)
 
     def test_get_exception(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -338,7 +338,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.ApiError):
             base = Base(Mock())
             query = {'key': 'value'}
-            base.make_request('GET', 'path', query, None)
+            base.make_request('GET', 'path', query, None, 1)
 
     def test_get_200(self):
         mock_session = patch('globomap_api_client.base.Session').start()
@@ -351,13 +351,13 @@ class BaseTest(unittest2.TestCase):
         params = {'key': 'value'}
 
         base = Base(Mock(api_url='http://localhost', token='token123'))
-        base.make_request('GET', 'path', params, None)
+        base.make_request('GET', 'path', params, None, 1)
 
         headers = {
             'Authorization': 'Token token=token123'
         }
         request_mock.assert_called_once_with(
-            'GET', 'http://localhost/v2/path/', params=params, headers=headers
+            'GET', 'http://localhost/v2/path/', params=params, headers=headers, verify=1
         )
 
     def test_get_400(self):
@@ -370,7 +370,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.ValidationError):
             base = Base(Mock())
             params = {'key': 'value'}
-            base.make_request('GET', 'path', params, None)
+            base.make_request('GET', 'path', params, None, 1)
 
     def test_get_401(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -382,7 +382,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.Unauthorized):
             base = Base(Mock())
             params = {'key': 'value'}
-            base.make_request('GET', 'path', params, None)
+            base.make_request('GET', 'path', params, None, 1)
 
     def test_get_403(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -394,7 +394,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.Forbidden):
             base = Base(Mock())
             params = {'key': 'value'}
-            base.make_request('GET', 'path', params, None)
+            base.make_request('GET', 'path', params, None, 1)
 
     def test_get_404(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -406,4 +406,4 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.NotFound):
             base = Base(Mock())
             params = {'key': 'value'}
-            base.make_request('GET', 'path', params, None)
+            base.make_request('GET', 'path', params, None, 1)

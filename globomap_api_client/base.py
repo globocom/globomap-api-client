@@ -19,6 +19,7 @@ import logging
 from requests import Session
 
 from globomap_api_client import exceptions
+from globomap_api_client.settings import SSL_VERIFY
 
 logger = logging.getLogger(__name__)
 
@@ -53,14 +54,16 @@ class Base(object):
                     method,
                     request_url,
                     params=params,
-                    headers=headers
+                    headers=headers,
+                    verify=SSL_VERIFY
                 )
             else:
                 response = self.session.request(
                     method,
                     request_url,
                     data=data,
-                    headers=headers
+                    headers=headers,
+                    verify=SSL_VERIFY
                 )
             logger.info('REQUEST: %s %s', method, request_url)
         except Exception:

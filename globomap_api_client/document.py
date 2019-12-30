@@ -59,3 +59,7 @@ class Document(Base):
     def clear(self, kind, collection, query):
         uri = '{}/{}/clear/'.format(kind, collection)
         return self.make_request(method='POST', uri=uri, data=query)
+
+    def count(self, collection):
+        uri = '{}/count/'.format(collection)
+        return self.make_request(method='GET', uri=uri)

@@ -85,14 +85,13 @@ class Base(object):
                 logger.info('RESPONSE: %s %s %s', method,
                             request_url, status_code)
 
-            if status_code in (502, 503) and self.retries:
+            if status_code in (502, 503) and retries < self.retries:
                 retries += 1
                 self.make_request(method, uri, params, data, retries)
 
             return self._parser_response(content, status_code)
 
     def _parser_response(self, content, status_code):
-
         if status_code == 200:
             return content
         elif status_code == 400:

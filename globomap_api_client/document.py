@@ -60,6 +60,10 @@ class Document(Base):
         uri = '{}/{}/clear/'.format(kind, collection)
         return self.make_request(method='POST', uri=uri, data=query)
 
-    def count(self, kind, collection):
+    def count(self, kind, collection, query=None):
         uri = '{}/{}/count/'.format(kind, collection)
-        return self.make_request(method='GET', uri=uri)
+        query = self.encoding_params(query)
+        params = {
+            'query': query
+        }
+        return self.make_request(method='GET', uri=uri, params=params)

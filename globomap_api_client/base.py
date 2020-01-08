@@ -15,6 +15,7 @@
 """
 import json
 import logging
+import time
 
 from requests import Session
 
@@ -88,6 +89,14 @@ class Base(object):
             if status_code in (502, 503) and retries < self.retries:
                 retries += 1
                 self.make_request(method, uri, params, data, retries)
+            elif status_code == 500:
+                retries_error = self.retries - 6
+                if retries < retries_error:
+                    logger.warning('Retry send %s %s %s %s',
+                                    method, request_url, params, data)
+                    retries += 1
+                    time.sleep(retries * 5)
+                    self.make_request(method, uri, params, data, retries)
 
             return self._parser_response(content, status_code)
 

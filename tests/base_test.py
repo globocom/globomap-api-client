@@ -39,7 +39,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.ApiError):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('POST', 'path', None, data, 1)
+            base.make_request('POST', 'path', None, data, 6)
 
     def test_post_exception(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -143,7 +143,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.ApiError):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('PUT', 'path', None, data, 1)
+            base.make_request('PUT', 'path', None, data, 6)
 
     def test_put_exception(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -235,7 +235,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.ApiError):
             base = Base(Mock())
             data = {'key': 'value'}
-            base.make_request('PATCH', 'path', None, data, 1)
+            base.make_request('PATCH', 'path', None, data, 6)
 
     def test_patch_exception(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
@@ -327,7 +327,7 @@ class BaseTest(unittest2.TestCase):
         with self.assertRaises(exceptions.ApiError):
             base = Base(Mock())
             query = {'key': 'value'}
-            base.make_request('GET', 'path', query, None, 1)
+            base.make_request('GET', 'path', query, None, 6)
 
     def test_get_exception(self):
         mock_requests = patch('globomap_api_client.base.Session').start()
